@@ -1,0 +1,144 @@
+<script>
+  let displayValue = "0";
+  let operator = "";
+  let total = null;
+
+  function handleNumberClick(event) {
+    const value = event.target.textContent;
+    if (displayValue === "0" || operator === "=") {
+      displayValue = value;
+      operator = "";
+    } else {
+      displayValue += value;
+    }
+  }
+
+  function handleOperatorClick(event) {
+    const selectedOperator = event.target.textContent;
+    if (operator && operator !== "=") {
+      calculate();
+    } else {
+      total = parseFloat(displayValue);
+    }
+    operator = selectedOperator;
+    displayValue = "0";
+  }
+
+  function calculate() {
+    const currentValue = parseFloat(displayValue);
+    switch (operator) {
+      case "+":
+        total += currentValue;
+        break;
+      case "-":
+        total -= currentValue;
+        break;
+      case "×":
+        total *= currentValue;
+        break;
+      case "÷":
+        total /= currentValue;
+        break;
+    }
+    operator = "=";
+    displayValue = total.toString();
+  }
+
+  function clearDisplay() {
+    displayValue = "0";
+    operator = "";
+    total = null;
+  }
+</script>
+  .calculadora{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      border: 1px solid #eee;
+      box-shadow: 2px 2px 2px #eee;
+      padding: 10px;
+    }
+    .calculadora input {
+      width: 100%;
+      padding: 20px;
+      outline: none;
+      text-align: right;
+      font-size: 20px;
+    }
+    .calculadora .buttons {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .calculadora .buttons .operations {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .calculadora .buttons .operations button {
+      width: 24%;
+    }
+    .calculadora .buttons .numbers {
+      width: 75%;
+    }
+    .calculadora .buttons .numbers > div {
+      display: flex;
+      justify-content: space-between;
+    }
+    .calculadora .buttons .numbers > div button {
+      width: 32%;
+    }
+    .calculadora .equal {
+      flex: 1;
+    }
+    .calculadora .equal button {
+      margin-left: 5%;
+      width: 95%;
+      height: 95%;
+      background: #00acee;
+      color: #eee;
+    }
+    .calculadora button {
+      outline: none;
+    }
+<style>
+  /* Seu estilo CSS aqui */
+</style>
+
+<div class="calculadora">
+  <input type="text" bind:value={displayValue} readonly="true" />
+  <div class="buttons">
+    <div class="operations">
+      <button on:click={handleOperatorClick}>+</button>
+      <button on:click={handleOperatorClick}>-</button>
+      <button on:click={handleOperatorClick}>×</button>
+      <button on:click={handleOperatorClick}>÷</button>
+    </div>
+    <div class="numbers">
+      <div>
+        <button on:click={handleNumberClick}>7</button>
+        <button on:click={handleNumberClick}>8</button>
+        <button on:click={handleNumberClick}>9</button>
+      </div>
+      <div>
+        <button on:click={handleNumberClick}>4</button>
+        <button on:click={handleNumberClick}>5</button>
+        <button on:click={handleNumberClick}>6</button>
+      </div>
+      <div>
+        <button on:click={handleNumberClick}>1</button>
+        <button on:click={handleNumberClick}>2</button>
+        <button on:click={handleNumberClick}>3</button>
+      </div>
+      <div>
+        <button on:click={handleNumberClick}>0</button>
+        <button on:click={handleNumberClick}>.</button>
+        <button on:click={clearDisplay}>C</button>
+      </div>
+    </div>
+    <div class="equal">
+      <button on:click={calculate}>=</button>
+    </div>
+  </div>
+</div>
